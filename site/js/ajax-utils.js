@@ -22,11 +22,13 @@ function getRequestObject() {
 
 // Makes an Ajax GET request to 'requestUrl'
 ajaxUtils.sendGetRequest = 
-  function(requestUrl, responseHandler, isJasonResponse) {
+  function(requestUrl, responseHandler, isJsonResponse) {
     var request = getRequestObject();
     request.onreadystatechange = 
       function() { 
-        handleResponse(request, responseHandler, isJasonResponse); 
+        handleResponse(request, 
+                       responseHandler,
+                       isJsonResponse); 
       };
     request.open("GET", requestUrl, true);
     request.send(null); // for POST only
@@ -36,16 +38,21 @@ ajaxUtils.sendGetRequest =
 // Only calls user provided 'responseHandler'
 // function if response is ready
 // and not an error
-function handleResponse(request, responseHandler, isJasonResponse) {
-  if ((request.readyState == 4) && (request.status == 200)) {
-    if(isJasonResponse == undefined){
-      isJasonResponse = true
+function handleResponse(request,
+                        responseHandler,
+                        isJsonResponse) {
+  if ((request.readyState == 4) &&
+     (request.status == 200)) {
+
+    // Default to isJsonResponse = true
+    if (isJsonResponse == undefined) {
+      isJsonResponse = true;
     }
 
-    if(isJasonResponse){
-      responseHandler(JSON.parse(request.responseText))
+    if (isJsonResponse) {
+      responseHandler(JSON.parse(request.responseText));
     }
-    else{
+    else {
       responseHandler(request.responseText);
     }
   }
