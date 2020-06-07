@@ -7,9 +7,6 @@ var ajaxUtils = {};
 // Returns an HTTP request object
 function getRequestObject() {
   if (global.XMLHttpRequest) {
-    // req.open("GET","http://127.0.0.1:5000/")
-    // req.setRequestHeader("Allow-Control-Allow-Origin","*");
-    // req.setRequestHeader("Allow-Control-Allow-Headers", "Origin,X-Requested-With, Content-Type, Accept");
     return (new XMLHttpRequest());
   } 
   else if (global.ActiveXObject) {
@@ -27,14 +24,11 @@ function getRequestObject() {
 ajaxUtils.sendGetRequest = 
   function(requestUrl, responseHandler) {
     var request = getRequestObject();
-    //request.open("GET","https://cors-anywhere.herokuapp.com http://127.0.0.1:5000/")
-    // request.setRequestHeader("Allow-Control-Allow-Origin","*");
-    // request.setRequestHeader("Allow-Control-Allow-Headers", "Origin,X-Requested-With, Content-Type, Accept");
     request.onreadystatechange = 
       function() { 
         handleResponse(request, responseHandler); 
       };
-    request.open("GET", "https://cors-anywhere.herokuapp.com/file:///D:/OnlineWork/Coursera_1/Practise/Week5/index.html", true);
+    request.open("GET", requestUrl, true);
     request.send(null); // for POST only
   };
 
@@ -50,7 +44,10 @@ function handleResponse(request,
   }
 }
 
+
 // Expose utility to the global object
 global.$ajaxUtils = ajaxUtils;
+
+
 })(window);
 
